@@ -20,7 +20,8 @@ test.get('/user', (req, res) => {
 // Delete Method
 test.delete('/user/:index', (req,res) => {
     delete userDets[req.params.index]
-    res.json("Selected index is deleted")
+    res.status(200).json`(
+    )`
 })
 
 test.patch('/user/:index' ,(req,res) => {
