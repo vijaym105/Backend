@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+
+html,body{
+    height: 100%;
+    width: 100%;
+    background-color: #222;
+
+
+
+    .mouseFollow{
+        height: 35px;
+        width: 35px;
+        background-color: #e6dfdf;
+        border-radius: 50%;
+        position: absolute;
+    }
+}

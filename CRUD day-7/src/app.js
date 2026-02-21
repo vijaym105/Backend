@@ -19,7 +19,7 @@ app.post("/notes", async (req,res) =>{
 })
 
 app.get("/notes", async(req, res) => {
-    const notes = await noteModel.find()
+    const notes = await noteModel.find() // find method always return response in array 
 
     res.status(200).json({
         message :"Data fetched successfuly",

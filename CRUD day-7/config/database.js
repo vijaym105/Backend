@@ -7,5 +7,4 @@ function toConnectdb(){
     })
     console.log(process.env.MONGO_URI)
 }
-
-module.exports = toConnectdb
+remodule.exports = toConnectdb
