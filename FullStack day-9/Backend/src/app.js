@@ -4,6 +4,8 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 app.use(express.json())
+app.use(express.static("./public"))
+const path = require('path')
 
 //Method Create notes to db using post method and stored to noteModel
 app.post("/notes", async(req,res) => {
@@ -41,16 +43,20 @@ app.delete("/notes/:id", async(req, res) => {
 
 app.patch('/notes/:id', async(req,res) => {
     const id = req.params.id
-    const {description} = req.body
-     const notes = await noteMode.findByIdAndUpdate(id, {description})
+    const {description, title} = req.body
+     const des = await noteMode.findByIdAndUpdate(id, {description})
+     const tits = await noteMode.findByIdAndUpdate(id, {title})
 
      res.status(200).json({
         message: "Note is Updated .",
-       
+        des , tits
      })
 })
 
-
+app.get("*name", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"))
+})
+console.log(__dirname)
 
 
 
