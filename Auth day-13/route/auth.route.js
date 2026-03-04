@@ -47,7 +47,7 @@ authRoute.post('/login', async(req, res) =>{
             message: "Cannot found email."
         })
     }
-    const isPass = user.password === crypto.createHash("md5").update(password).digest("hex")
+    const isPass = user.password === crypto.createHash("md5").update(password).digest("hex") // Hashing -> converting normal text to cipher text using md5 alogirthm
     if(!isPass){
         return res.status(409).json({
             message: "Cannot match given password",
