@@ -1,5 +1,5 @@
 const userModel = require('../models/user.model')
-const crypto = require('crypto')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
  async function registerController (req, res) {
     try{
@@ -17,8 +17,8 @@ const jwt = require('jsonwebtoken')
             "Email already in use" : "Username already in use"
         })
     }
-
-    const hash = crypto.createHash('sha256').update(password).digest('hex')
+    
+    const hash = await bcrypt.hash(password, 10)
 
     const user = await userModel.create({
         username,
@@ -27,7 +27,6 @@ const jwt = require('jsonwebtoken')
         bio,
         profilePic
     })
-    
     const token = jwt.sign({
         id: user._id
     }, process.env.JWT_SECRET)
@@ -52,6 +51,7 @@ const jwt = require('jsonwebtoken')
 }
 }
 catch(error){
+    console.log(error)
     res.status(500).json({
         message: "Problem from server side"
     })
@@ -59,9 +59,10 @@ catch(error){
 }
 
 async function loginController (req,res) {
+    try{
     const {username, email, password} = req.body
 
-    const user = userModel.findOne({
+    const user = await userModel.findOne({
         $or: [
             {username},
             {email}
@@ -72,10 +73,10 @@ async function loginController (req,res) {
             message:"user not found"
         })
     }
-    const hash = crypto.createHash('sha256').update(password).digest('hex')
-
-    const isPassValid = hash == password
-    if(isPassValid){
+   
+    const isPassValid = await bcrypt.compare(password, user.password)
+    
+    if(!isPassValid){
         return res.status(401).json({
             message:"Incorrect password"
         })
@@ -90,6 +91,9 @@ async function loginController (req,res) {
     res.status(200).json({
         message:"User loged in successfuly"
     })
+}catch(error){
+    console.log(error)
+}
 }
 
 module.exports = {
