@@ -8,4 +8,5 @@ auth.post('/register',controller.registerController)
 auth.post('/login', controller.loginController )
 
 
+
 module.exports = auth

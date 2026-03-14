@@ -1,28 +1,81 @@
 const postModel = require('../models/post.model')
-const imageKit  = require('@imagekit/nodejs')
-const {toFile} = require('@imagekit/nodejs')
+const imageKit = require('@imagekit/nodejs')
+const { toFile } = require('@imagekit/nodejs')
+const jwt = require('jsonwebtoken')
 const imgkit = new imageKit({
     private: process.env.IMAGEKIT_PRIVATE_KEY
 })
 
 
-async function postController(req,res) {
-    
-    const file = await imgkit.files.upload({
-        file: await toFile(Buffer.from(req.file.buffer),'file'),
-        fileName: Date.now() + '-' + req.file.originalname
-    })
-   res.status(200).json({
-    message: "Image fetched successfully.",
-    file,
-    
-   })
+async function postController(req, res) {
+    let decoded = null
+    try {
+        console.log(req.body, req.file)
 
-    if(!req.file){
-       return res.status(400).json({
-        message: "Upload a image"
-       })
+        const token = req.cookies.token
+
+        if (!token) {
+            return res.status(401).json({
+                message: "Token is not provided, Unauthorized access."
+            })
+        }
+
+        decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+    } catch (error) {
+        console.log(error)
     }
+    if (!req.file) {
+        return res.status(400).json({
+            message: "Upload a image"
+        })
+    }
+    const file = await imgkit.files.upload({
+        file: await toFile(Buffer.from(req.file.buffer), 'file'),
+        fileName: Date.now() + '-' + req.file.originalname,
+        folder: "Cohort-2/insta-clone"
+    })
+
+    
+    const post = await postModel.create({
+        caption: req.body.caption,
+        imgFile: file.url,
+        user: decoded.user
+    })
+    
+    res.status(200).json({
+        message: "Post created successfuly",
+        post
+    })
 }
 
-module.exports = {postController}
+async function getPostController(req, res) {
+
+    const token = req.cookies.token
+    console.log(token)
+    let decoded = null;
+    try{
+        decoded = jwt.verify(token, process.env.JWT_SECRET)
+        console.log(decoded)
+    }catch(err){
+        res.status(401).json({
+            message: "Invalid token or Unauthorized"
+        })
+    }
+
+    let id = decoded.user;
+    
+    let posts = await postModel.find({
+        user: id
+     })
+       
+    res.status(200).json({
+        message:"Post fetched successfuly",
+        posts
+    })
+
+}
+
+module.exports = { postController,
+    getPostController
+ }
