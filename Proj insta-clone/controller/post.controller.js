@@ -9,23 +9,7 @@ const imgkit = new imageKit({
 
 
 async function postController(req, res) {
-    let decoded = null
-    try {
-        console.log(req.body, req.file)
-
-        const token = req.cookies.token
-
-        if (!token) {
-            return res.status(401).json({
-                message: "Token is not provided, Unauthorized access."
-            })
-        }
-
-        decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-    } catch (error) {
-        console.log(error)
-    }
+   
     if (!req.file) {
         return res.status(400).json({
             message: "Upload a image"
@@ -41,7 +25,7 @@ async function postController(req, res) {
     const post = await postModel.create({
         caption: req.body.caption,
         imgFile: file.url,
-        user: decoded.user
+        user: req.user.user
     })
     
     res.status(200).json({
@@ -52,19 +36,9 @@ async function postController(req, res) {
 
 async function getPostController(req, res) {
 
-    const token = req.cookies.token
-    console.log(token)
-    let decoded = null;
-    try{
-        decoded = jwt.verify(token, process.env.JWT_SECRET)
-        console.log(decoded)
-    }catch(err){
-        res.status(401).json({
-            message: "Invalid token or Unauthorized"
-        })
-    }
 
-    let id = decoded.user;
+
+    let id = req.user.user
     
     let posts = await postModel.find({
         user: id
@@ -77,27 +51,11 @@ async function getPostController(req, res) {
 
 }
 async function getPostDetsController(req, res) {
-    const token = req.cookies.token
-    if(!token){
-        return res.status(401).json({
-            message: "Unauthorized token or action"
-        })
-    } 
 
-    let decoded;
-    try{
-        decoded = jwt.verify(token, process.env.JWT_SECRET)
-    }catch(err){
-        return res.status(404).json({
-            message: "resource not found"
-        })
-    }
+
 
     const postId = req.params.postId
-    const userId = decoded.user
-    console.log("Decoded Id:"+ decoded.user)
-    console.log("Post ID from params:", req.params.postId)
-    console.log(mongoose.Types.ObjectId.isValid(postId))
+    const userId = req.user.user
 
     const post = await postModel.findById(postId)
     console.log("Post from DB:", post)
