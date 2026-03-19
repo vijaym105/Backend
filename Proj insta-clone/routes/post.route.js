@@ -10,4 +10,6 @@ post.post('/', upload.single('image'), postController.postController)
 
 post.get('/', postController.getPostController )
 
+post.get('/dets/:postId', postController.getPostDetsController)
+
 module.exports = post
