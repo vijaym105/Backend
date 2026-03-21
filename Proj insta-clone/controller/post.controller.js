@@ -1,6 +1,7 @@
 const postModel = require('../models/post.model')
 const imageKit = require('@imagekit/nodejs')
 const { toFile } = require('@imagekit/nodejs')
+const likeModel = require('../models/like.model')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const imgkit = new imageKit({
@@ -25,7 +26,7 @@ async function postController(req, res) {
     const post = await postModel.create({
         caption: req.body.caption,
         imgFile: file.url,
-        user: req.user.user
+        user: req.user.id
     })
     
     res.status(200).json({
@@ -35,10 +36,7 @@ async function postController(req, res) {
 }
 
 async function getPostController(req, res) {
-
-
-
-    let id = req.user.user
+    let id = req.user.id
     
     let posts = await postModel.find({
         user: id
@@ -50,15 +48,13 @@ async function getPostController(req, res) {
     })
 
 }
+
 async function getPostDetsController(req, res) {
 
-
-
     const postId = req.params.postId
-    const userId = req.user.user
+    const userId = req.user.id
 
     const post = await postModel.findById(postId)
-    console.log("Post from DB:", post)
     if(!post){
         return res.status(404).json({
             message: "Post not found"
@@ -76,7 +72,31 @@ async function getPostDetsController(req, res) {
         post
     })
 }
+
+async function postLikeController(req, res) {
+
+    const user = req.user.username
+    const postId = req.params.postId
+
+    const post = await postModel.findById(postId)
+    if(!post){
+        return res.status(404).json({
+            message: "post not found"
+        })
+    }
+
+    const likes = await likeModel.create({
+        user: user,
+        post: postId
+    })
+    res.status(201).json({
+        message: `${user} liked successfuly.`,
+        likes
+    })
+}
+
 module.exports = { postController,
     getPostController,
-    getPostDetsController
+    getPostDetsController,
+    postLikeController
  }
