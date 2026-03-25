@@ -1,6 +1,7 @@
 const express = require('express') 
 const auth = express()
 const controller = require('../controller/auth.controller')
+const identifyUser = require('../middlewares/auth.middlewar')
 
 /**
  * @route POST /api/auth/register
@@ -14,6 +15,9 @@ auth.post('/register',controller.registerController)
  */
 auth.post('/login', controller.loginController )
 
-
-
+/**
+ * @route GET /api/auth/getMe
+ * @description shows details of logined user
+ */
+auth.get('/getMe', identifyUser , controller.getMeController )
 module.exports = auth

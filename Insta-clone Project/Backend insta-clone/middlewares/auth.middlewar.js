@@ -15,7 +15,6 @@ async function identifyUser(req, res, next) {
             message: "Forbiden access"
         })
     }
-    console.log(decoded)
     req.user = decoded
     next()
 }

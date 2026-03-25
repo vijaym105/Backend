@@ -2,22 +2,25 @@ import React, { useState } from 'react'
 import '../../style/style.css'
 import { Link } from 'react-router'
 import axios from 'axios'
+import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
     const [username, setuserName] = useState("")
     const [password, setPassword] = useState("")
 
+    const {loading, user, handleLogin} = useAuth()
+
     async function HandleData(dets) {
         dets.preventDefault()
 
-        axios.post('http://localhost:3000/api/auth/login',{
-            username,
-            password
-        },{
-            withCredentials:true
-        }).then(res =>{
-            console.log(res.data)
-        })
+        await handleLogin(username, password)
+        .then(res => console.log(res.data))
+        navigate
+    }
+    if(loading){
+        return (<main>
+            <h1>Loading...</h1>
+        </main>)
     }
   return (
     <main>
@@ -26,7 +29,7 @@ const Login = () => {
             <form onSubmit={HandleData}>
                 <input type="text"
                 onInput={(e)=>{setuserName(e.target.value)}}
-                name='username' placeholder='Enter your name'/>
+                name='username' placeholder='Enter your email'/>
 
                 <input type="password"
                 onInput={(e)=>{setPassword(e.target.value)}}

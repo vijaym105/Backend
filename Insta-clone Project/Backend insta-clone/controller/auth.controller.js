@@ -96,7 +96,25 @@ async function loginController (req,res) {
 }
 }
 
+async function getMeController(req, res) {
+    const userId = req.user.id
+    const user = await userModel.findById(userId)
+
+    if(!user){
+        return res.status(404).json({
+            message: "User not found please send token through login api"
+        })
+    }
+
+    res.status(200).json({
+        user
+    })
+}
+
+
+
 module.exports = {
     registerController,
-    loginController
+    loginController,
+    getMeController
 }
