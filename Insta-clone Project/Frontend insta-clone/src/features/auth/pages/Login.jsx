@@ -36,7 +36,7 @@ const Login = () => {
                 name='password' placeholder='Enter your password'/>
                 <button type='submit'>Submit</button>
             </form>
-            <p>Already have an account? <Link to="/register">register</Link></p>
+            <p>Don't have an account? <Link to="/register">register</Link></p>
         </div>
     </main>
   )

@@ -1,0 +1,17 @@
+button{
+    padding-inline: 0.5rem;
+    padding-block: 0.7rem;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .pri-btn{
+        background-color: rgba(236, 40, 40, 0.768);
+        color: white;
+    }
+
+    .pri-btn:active{
+        transform: scale(0.9);
+    }
