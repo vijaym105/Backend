@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
-import '../../style/style.css'
-import { Link } from 'react-router'
+import '../../style/form.scss'
+import { Link, useNavigate } from 'react-router'
 import axios from 'axios'
 import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
     const [username, setuserName] = useState("")
     const [password, setPassword] = useState("")
-
+    const navigate = useNavigate()
     const {loading, user, handleLogin} = useAuth()
+
 
     async function HandleData(dets) {
         dets.preventDefault()
 
         await handleLogin(username, password)
-        .then(res => console.log(res.data))
-        navigate
+        navigate('/')
     }
     if(loading){
         return (<main>

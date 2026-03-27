@@ -26,7 +26,7 @@ export  function AuthProvider({children}) {
         setLoading(true)
         try{
         const response = await registerUser(username, email, password)
-        setUser(response.data)
+        setUser(response)
     
         }
         catch(err){
