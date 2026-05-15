@@ -21,12 +21,7 @@ const Feed = () => {
             <div className='feed'>
                 <div className="posts">
                     {feed.map(post => {
-                       return <Post
-                            key={post._id}
-                            user={post.user}
-                            caption={post.caption}
-                            image={post.imgFile}
-                        />
+                       return <Post user={post.user} post={post}/>
                     })}
 
                 </div>
