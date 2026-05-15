@@ -1,0 +1,74 @@
+.feed-page{
+    display: flex;
+    justify-content: center;
+    align-items: initial;
+
+    .feed{
+        max-width: 400px;
+
+        .posts{
+            width: 100%;
+        }
+
+        .post{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            padding-inline: 0.4rem;
+            padding-block: 0.4rem;
+            background-color: rgb(49, 49, 48);
+
+        .user{
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: 5px;
+
+
+
+            .img-wrap{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                border: 2px solid rgba(255, 0, 0, 0);
+                background: conic-gradient(rgb(244, 95, 95), rgb(31, 165, 31), rgb(244, 95, 95)) border-box;
+            }
+
+
+            img{
+                width: 50px;
+                border-radius: 50%;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+            }
+        }
+
+        .svgs{
+            display: flex;
+            justify-content: space-between;
+
+            svg{
+                width: 1.2rem;
+                aspect-ratio: 1/1;
+                color: white;
+            }
+            button{
+                background-color: transparent;
+                border: none;
+                outline: none;
+            }
+            .left{
+                display: flex;
+                gap: 0.7rem;
+            }
+        }
+        
+    }
+    }
+    
+    img{
+        width: 100%;
+    }
+}

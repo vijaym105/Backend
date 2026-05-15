@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../style/form.scss'
+import '../style/form.scss'
 import { Link, useNavigate } from 'react-router'
 import axios from 'axios'
 import { useAuth } from '../hooks/useAuth'

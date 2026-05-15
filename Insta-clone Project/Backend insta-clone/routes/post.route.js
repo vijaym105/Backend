@@ -30,6 +30,6 @@ post.get('/dets/:postId', identifyUser ,postController.getPostDetsController)
 */
 post.post('/like/:postId', identifyUser, postController.postLikeController)
 
-
+post.get('/feed', identifyUser, postController.feedController)
 
 module.exports = post

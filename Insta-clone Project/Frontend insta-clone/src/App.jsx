@@ -3,15 +3,18 @@ import { RouterProvider } from 'react-router'
 import AppRouter from './AppRouter'
 import { AuthProvider } from './features/auth/auth.context'
 import './style.scss'
+import { PostContProvider } from './features/post/post.context'
 
 
 const App = () => {
   return (
     <AuthProvider>
-    <AppRouter />
+      <PostContProvider>
+        <AppRouter />
+      </PostContProvider>
     </AuthProvider>
-    
+
   )
 }
 
-export default App
+export default App  

@@ -4,6 +4,7 @@ const { toFile } = require('@imagekit/nodejs')
 const likeModel = require('../models/like.model')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const { post } = require('../routes/auth')
 const imgkit = new imageKit({
     private: process.env.IMAGEKIT_PRIVATE_KEY
 })
@@ -22,7 +23,8 @@ async function postController(req, res) {
         folder: "Cohort-2/insta-clone"
     })
 
-    
+    console.log(req.user)
+    console.log(req.user.id)
     const post = await postModel.create({
         caption: req.body.caption,
         imgFile: file.url,
@@ -95,8 +97,17 @@ async function postLikeController(req, res) {
     })
 }
 
+async function feedController(req, res){
+    const note = await postModel.find().populate("user");
+
+    res.status(200).json({
+        message: "Data fetched successfuly",
+        note
+    })
+}
 module.exports = { postController,
     getPostController,
     getPostDetsController,
-    postLikeController
+    postLikeController,
+    feedController
  }

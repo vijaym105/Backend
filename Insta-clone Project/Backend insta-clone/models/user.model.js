@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: ["Password required"]
+        required: ["Password required"],
+        select: false
     },
     bio: String,
 

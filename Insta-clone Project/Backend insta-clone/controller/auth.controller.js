@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
            { email}
         ]
     })
+    
     if(isUserExist){
         return  res.status(409).json({
             message: isUserExist.email == email ? 
@@ -67,7 +68,7 @@ async function loginController (req,res) {
             {username},
             {email}
         ]
-    })
+    }).select("+password")
     if(!user){
         return res.status(404).json({
             message:"user not found"
