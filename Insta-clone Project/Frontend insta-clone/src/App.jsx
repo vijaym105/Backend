@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router'
 import AppRouter from './AppRouter'
 import { AuthProvider } from './features/auth/auth.context'
 import './style.scss'
-import { PostContProvider } from './features/post/post.context'
+import { PostContProvider } from './features/post/Post.context'
 
 
 const App = () => {

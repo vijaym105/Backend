@@ -1,16 +1,46 @@
-.feed-page{
+.feed-page {
     display: flex;
     justify-content: center;
-    align-items: initial;
+    align-items: center;
+    flex-direction: column;
 
-    .feed{
+
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        h1 {
+             background: -webkit-linear-gradient(#d35858cb, #94f9ab7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+        }
+
+        .Create {
+            color: rgb(65, 64, 64);
+            border: none;
+            padding-inline: 0.3rem;
+            border-radius: 5px;
+            background-color: rgba(239, 235, 235, 0.707);
+            transition: all 0.3s ease;
+            font-weight: 550;
+        }
+
+        button:hover {
+            cursor: pointer;
+            transform: scale(0.9);
+        }
+    }
+
+    .feed {
         max-width: 400px;
 
-        .posts{
+        .posts {
             width: 100%;
         }
 
-        .post{
+        .post {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -19,62 +49,64 @@
             padding-block: 0.4rem;
             background-color: rgb(49, 49, 48);
 
-        .user{
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            margin-bottom: 5px;
-
-
-
-            .img-wrap{
+            .user {
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                border-radius: 50%;
-                border: 2px solid rgba(255, 0, 0, 0);
-                background: conic-gradient(rgb(244, 95, 95), rgb(31, 165, 31), rgb(244, 95, 95)) border-box;
-            }
+                gap: .5rem;
+                margin-bottom: 5px;
 
 
-            img{
-                width: 50px;
-                border-radius: 50%;
-                aspect-ratio: 1/1;
-                object-fit: cover;
-            }
-        }
 
-        .svgs{
-            display: flex;
-            justify-content: space-between;
-
-            svg{
-                width: 1.2rem;
-                aspect-ratio: 1/1;
-                color: white;
-            }
-            button{
-                background-color: transparent;
-                border: none;
-                outline: none;
-            }
-            .left{
-                display: flex;
-                gap: 0.7rem;
-            
-                
-                .like{
-                    color: red;
+                .img-wrap {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    border: 2px solid rgba(255, 0, 0, 0);
+                    background: conic-gradient(rgb(244, 95, 95), rgb(31, 165, 31), rgb(244, 95, 95)) border-box;
                 }
-            
+
+
+                img {
+                    width: 50px;
+                    border-radius: 50%;
+                    aspect-ratio: 1/1;
+                    object-fit: cover;
+                }
             }
+
+            .svgs {
+                display: flex;
+                justify-content: space-between;
+
+                svg {
+                    width: 1.2rem;
+                    aspect-ratio: 1/1;
+                    color: white;
+                }
+
+                button {
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                }
+
+                .left {
+                    display: flex;
+                    gap: 0.7rem;
+
+
+                    .like {
+                        color: red;
+                    }
+
+                }
+            }
+
         }
-        
     }
-    }
-    
-    img{
+
+    img {
         width: 100%;
     }
 }
