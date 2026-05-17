@@ -28,19 +28,63 @@ export const usePost = () => {
         setloading(false)
     }
 
-    const likeHandler = async (p) =>{
-        
-        const data = await likePost(p)
-        createPostHandler()
+    const likeHandler = async (postId) => {
 
-    }
+    setfeed(prev =>
+        prev.map(post =>
+            post._id === postId
+                ? { ...post, isLiked: true }
+                : post
+        )
+    )
 
-     const unLikeHandler = async (p) =>{
-       
-        const data = await unLikePost(p)
-        createPostHandler()
-       
+    try {
+
+        await likePost(postId)
+
+    } catch (error) {
+
+        console.log(error)
+
+        // rollback if API fails
+        setfeed(prev =>
+            prev.map(post =>
+                post._id === postId
+                    ? { ...post, isLiked: false }
+                    : post
+            )
+        )
     }
+}
+
+    const unLikeHandler = async (postId) => {
+
+    setfeed(prev =>
+        prev.map(post =>
+            post._id === postId
+                ? { ...post, isLiked: false }
+                : post
+        )
+    )
+
+    try {
+
+        await unLikePost(postId)
+
+    } catch (error) {
+
+        console.log(error)
+
+        // rollback
+        setfeed(prev =>
+            prev.map(post =>
+                post._id === postId
+                    ? { ...post, isLiked: true }
+                    : post
+            )
+        )
+    }
+}
 
     useEffect(() => {
         getDetsHandler()
