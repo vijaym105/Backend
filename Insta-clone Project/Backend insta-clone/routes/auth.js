@@ -20,4 +20,10 @@ auth.post('/login', controller.loginController )
  * @description shows details of logined user
  */
 auth.get('/getMe', identifyUser , controller.getMeController )
+
+
+auth.post('/logout', (req, res) => {
+    res.clearCookie('token')
+    res.status(200).json({ message: "Logged out successfully" })
+})
 module.exports = auth
