@@ -32,7 +32,11 @@ const jwt = require('jsonwebtoken')
         id: user._id , username: user.username
     }, process.env.JWT_SECRET)
         
-    res.cookie("token",token)
+    res.cookie("token", token, {
+   httpOnly: true,
+   secure: true,
+   sameSite: "none"
+})
 
     res.status(201).json({
         message:"User account created successfuly",
