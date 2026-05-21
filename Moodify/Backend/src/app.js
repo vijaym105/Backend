@@ -1,0 +1,13 @@
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const app = express()
+app.use(express())
+app.use(cookieParser())
+
+
+/**
+ * @routes /api/auth/register
+ */
+const authRoutes = require('../routes/auth.route')
+app.use('/api/auth', authRoutes)
+module.exports = app
