@@ -15,7 +15,7 @@ async function registerUser(req, res){
             messgae: "User or email has been alread taken."
         })
     }
-
+    console.log(username, email, password)
     const hash = await bcrypt.hash(password, 10);
 
     const user = await userModel.create({
@@ -50,7 +50,7 @@ async function loginUser(req, res){
             { username },
             { email }
         ]
-    })
+    }).select('+password')
     if(!user){
         return res.status(400).json({
             message:"Invalid credentials"
@@ -83,4 +83,18 @@ async function loginUser(req, res){
 
 }
 
-module.exports = { registerUser, loginUser }
+async function getMe(req, res){
+    const userID = req.user.id
+    const user = await userModel.findById(userID)
+    if(!user){
+        return res.status(404).json({
+            message: "User not found"
+        })
+    }
+    res.status(200).json({
+        message: "Dets fetched successfuly",
+        user
+    })
+}
+
+module.exports = { registerUser, loginUser , getMe}
