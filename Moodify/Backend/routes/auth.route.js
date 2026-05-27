@@ -8,5 +8,6 @@ console.log(middleware)
 route.post('/register',  authController.registerUser)
 route.post('/login', authController.loginUser)
 route.get('/get-me', middleware.authMiddleware , authController.getMe )
+route.post('/logout', authController.logOut)
 
 module.exports = route
