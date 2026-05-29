@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-
+const BlacklistModel = require('../models/blackList');
 async function authMiddleware(req, res, next) {
     const token = req.cookies.token
 
@@ -8,6 +8,8 @@ async function authMiddleware(req, res, next) {
             message: "Unathorized access"
         })
     }
+
+    const isTokenBlacklisted = await 
     let decoded;
     try{
         decoded = jwt.verify(token, process.env.JWT_SECRET)
