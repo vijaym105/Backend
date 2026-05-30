@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const BlacklistModel = require('../models/blackList');
+const redis = require('../config/cache')
 async function authMiddleware(req, res, next) {
     const token = req.cookies.token
 
@@ -9,7 +10,14 @@ async function authMiddleware(req, res, next) {
         })
     }
 
-    const isTokenBlacklisted = await 
+    const isTokenBlacklisted = await redis.get(token)
+    
+    if(isTokenBlacklisted){
+        return res.status(401).json({
+            message: "Invalid token",
+            success: false
+        })
+    }
     let decoded;
     try{
         decoded = jwt.verify(token, process.env.JWT_SECRET)

@@ -1,4 +1,4 @@
-const Redis = require('ioredis').default
+const Redis = require('ioredis')
 
 const redis = new Redis({
     host: process.env.REDIS_HOST,
@@ -9,3 +9,8 @@ const redis = new Redis({
 redis.on("connect", ()=> {
     console.log("server is connected to redis");
 })
+redis.on("error", (err)=> {
+    console.log(err)
+})
+
+module.exports = redis
