@@ -1,45 +1,48 @@
 import React, { useState } from 'react'
-import '../Style/login.scss'
+import "../style/login.scss"
+import FormGroup from '../components/FormGroup'
+import { Link } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router'
+
 const Login = () => {
 
-  const { user, loading, HandleLogin } = useAuth()
-  const [email, setemail] = useState("")
-  const [pass, setpass] = useState("")
-  const navigate = useNavigate()
+    const { loading, handleLogin } = useAuth()
 
-  async function dataHandler(e) {
-    e.preventDefault
+    const navigate = useNavigate()
 
-    const dets = await HandleLogin(email, pass)
-    if(!dets || loading){
-      return(
-        <h2>Loading</h2>
-      )
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        await handleLogin({ email, password })
+        navigate("/")
     }
-    navigate('/')
 
-  }
-
-  return (
-    <main>
-      <div className="form-cont">
-        <h1>Login</h1>
-        <form onSubmit={dataHandler}>
-          <input type="text" name='email' id='email'
-            value={email}
-            onChange={e => setemail( e.target.value )}
-            placeholder='Email' />
-          <input type="text" name='password' id='pass'
-            value={pass}
-            onChange={e => setpass(e.target.value )}
-            placeholder='password' />
-          <button type='submit'>Login</button>
-        </form>
-      </div>
-    </main>
-  )
+    return (
+        <main className="login-page">
+            <div className="form-container">
+                <h1>Login</h1>
+                <form onSubmit={handleSubmit} >
+                    <FormGroup
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Email"
+                        placeholder="Enter your email"
+                    />
+                    <FormGroup
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        label="Password"
+                        placeholder="Enter your password"
+                    />
+                    <button className='button' type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <Link to="/register">Register here</Link></p>
+            </div>
+        </main>
+    )
 }
 
 export default Login

@@ -1,52 +1,52 @@
 import React, { useState } from 'react'
-import '../Style/register.scss'
+import "../style/register.scss"
+import FormGroup from '../components/FormGroup'
+import { Link } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router'
 
 const Register = () => {
 
-  const { loading, HandleRegister } = useAuth()
-  const [email, setemail] = useState("")
-  const [username, setusername] = useState("")
-  const [pass, setpass] = useState(null)
-  const navigate = useNavigate()
+    const [ username, setUsername ] = useState("")
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
 
-  async function dataHandler(dets) {
-    dets.preventDefault
+    const navigate = useNavigate()
 
-    const data = await HandleRegister(username)
-    if(!data || loading){
-      return(
-        <h1>Loading...</h1>
-      )
+    const { loading, handleRegister } = useAuth()
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        await handleRegister({ username, password, email })
+
+        navigate('/')
+
     }
-    navigate('/')
-  }
 
-  return (
-    <main>
-      <div className="form-cont">
-        <h1>Register</h1>
-        <form onSubmit={dataHandler}>
-
-          <input type="text" name='username' id='username'
-            value={username}
-            onChange={e => setusername (e.target.value)}
-            placeholder='username' />
-          <input type="text" name='email' id='email'
-            value={email}
-            onChange={e => setemail(e.target.value)}
-            placeholder='email' />
-          <input type="text" name='password' id='pass'
-            value={pass}
-            onChange={e => setpass(e.target.value)}
-            placeholder='password' />
-
-          <button type='submit'>Login</button>
-        </form>
-      </div>
-    </main>
-  )
+    return (
+        <main className="register-page">
+            <div className="form-container">
+                <h1>Register</h1>
+                <form onSubmit={handleSubmit} >
+                    <FormGroup
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        label="Name" placeholder="Enter your name" />
+                    <FormGroup
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Email" placeholder="Enter your email" />
+                    <FormGroup
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        label="Password" placeholder="Enter your password" />
+                    <button className='button' type="submit">Register</button>
+                </form>
+                <p>Already have an account? <Link to="/login">Login here</Link></p>
+            </div>
+        </main>
+    )
 }
 
 export default Register
