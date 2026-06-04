@@ -13,6 +13,7 @@ export const useAuth = () => {
         const data = await register({ username, email, password })
         setUser(data.user)
         setLoading(false)
+        
     }
 
     async function handleLogin({ username, email, password }) {

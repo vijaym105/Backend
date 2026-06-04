@@ -17,7 +17,7 @@ async function registerUser(req, res){
             messgae: "User or email has been alread taken."
         })
     }
-    console.log(username, email, password)
+    
     const hash = await bcrypt.hash(password, 10);
 
     const user = await userModel.create({
