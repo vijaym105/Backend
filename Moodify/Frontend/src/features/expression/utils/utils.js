@@ -60,7 +60,7 @@ export const detect = ({
         const frownLeft = getScore("mouthFrownLeft");
         const frownRight = getScore("mouthFrownRight");
 
-        console.log("sad:", frownLeft , frownRight);
+        console.log("confused:", jawOpen , browUp);
 
         
 
@@ -73,7 +73,7 @@ export const detect = ({
 
         } else if (
             jawOpen > 0.02 &&
-            browUp > 0.2
+            browUp > 0.002
         ) {
             currentExpression = "confused";
 

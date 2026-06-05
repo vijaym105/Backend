@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from 'react'
-import { SongContext } from '../song.context'
+import React, { useRef, useState, useEffect } from 'react'
 import { useSong } from '../hooks/useSong'
 import './player.scss'
 
@@ -26,12 +25,18 @@ const Player = () => {
     const [showSpeed, setShowSpeed] = useState(false)
     const [isMuted, setIsMuted] = useState(false)
 
-    // Reset player when song changes
+    
     useEffect(() => {
-        if (audioRef.current) {
+        if (audioRef.current && song?.url) {
             audioRef.current.load()
-            setIsPlaying(false)
             setCurrentTime(0)
+            setIsPlaying(false)
+           
+            audioRef.current.oncanplay = () => {
+                audioRef.current.play()
+                    .then(() => setIsPlaying(true))
+                    .catch(() => {}) 
+            }
         }
     }, [song?.url])
 
@@ -58,6 +63,7 @@ const Player = () => {
 
     const handleLoadedMetadata = () => {
         setDuration(audioRef.current.duration)
+        audioRef.current.playbackRate = speed
     }
 
     const handleProgressClick = (e) => {
@@ -102,6 +108,9 @@ const Player = () => {
 
     if (!song) return null
 
+  
+    const posterSrc = song.ThumbnailUrl || song.posterUrl || ''
+
     return (
         <div className="player">
             <audio
@@ -112,12 +121,13 @@ const Player = () => {
                 onEnded={handleSongEnd}
             />
 
-            {/* Poster + Info */}
+   
             <div className="player__info">
                 <img
                     className="player__poster"
-                    src={song.posterUrl}
+                    src={posterSrc}
                     alt={song.title}
+                    onError={(e) => { e.target.style.visibility = 'hidden' }}
                 />
                 <div className="player__meta">
                     <p className="player__title">{song.title}</p>
@@ -125,7 +135,6 @@ const Player = () => {
                 </div>
             </div>
 
-            {/* Progress bar */}
             <div className="player__progress-wrap">
                 <span className="player__time">{formatTime(currentTime)}</span>
                 <div
@@ -139,10 +148,9 @@ const Player = () => {
                 <span className="player__time">{formatTime(duration)}</span>
             </div>
 
-            {/* Controls */}
             <div className="player__controls">
 
-                {/* Speed picker */}
+       
                 <div className="player__speed-wrap">
                     <button
                         className="player__btn player__btn--speed"
@@ -166,7 +174,7 @@ const Player = () => {
                     )}
                 </div>
 
-                {/* Backward 5s */}
+              
                 <button className="player__btn player__btn--skip" onClick={() => skip(-5)} title="Back 5s">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
                         <path d="M1 4v6h6"/>
@@ -175,7 +183,6 @@ const Player = () => {
                     <span>5s</span>
                 </button>
 
-                {/* Play / Pause */}
                 <button className="player__btn player__btn--play" onClick={togglePlay} title={isPlaying ? 'Pause' : 'Play'}>
                     {isPlaying ? (
                         <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
@@ -189,7 +196,7 @@ const Player = () => {
                     )}
                 </button>
 
-                {/* Forward 5s */}
+             
                 <button className="player__btn player__btn--skip" onClick={() => skip(5)} title="Forward 5s">
                     <span>5s</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
@@ -198,7 +205,7 @@ const Player = () => {
                     </svg>
                 </button>
 
-                {/* Volume */}
+               
                 <div className="player__volume">
                     <button className="player__btn player__btn--vol" onClick={toggleMute} title="Mute">
                         {isMuted || volume === 0 ? (
