@@ -39,7 +39,7 @@ export const detect = ({
         videoRef.current,
         performance.now()
     );
-
+    let currentExpression = "Neutral";
     if (results.faceBlendshapes?.length > 0) {
 
         const blendshapes =
@@ -62,7 +62,7 @@ export const detect = ({
 
         console.log("sad:", frownLeft , frownRight);
 
-        let currentExpression = "Neutral";
+        
 
         if (
             smileLeft > 0.5 &&
@@ -72,10 +72,10 @@ export const detect = ({
             currentExpression = "happy";
 
         } else if (
-            jawOpen > 0.2 &&
+            jawOpen > 0.02 &&
             browUp > 0.2
         ) {
-            currentExpression = "surprised";
+            currentExpression = "confused";
 
         } else if (
             frownLeft > 0.0001 &&
@@ -85,4 +85,5 @@ export const detect = ({
         }
         setExpression(currentExpression);
     }
+     return currentExpression
 };

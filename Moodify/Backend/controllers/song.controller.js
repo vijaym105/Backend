@@ -23,7 +23,7 @@ async function songCreat(req, res) {
         })
     ])
 
-    const song = await songModel({
+    const song = await songModel.create({
         title:tag.title,
         url:songFile.url,
         ThumbnailUrl: postFile.url,
@@ -36,8 +36,24 @@ async function songCreat(req, res) {
     })
 }
 
+async function getSong(req, res) {
+
+    const { mood } = req.query
+
+    const song = await songModel.findOne({
+        mood,
+    })
+
+    res.status(200).json({
+        message: "song fetched successfully.",
+        song,
+    })
+
+}
+
 
 
 module.exports = {
-    songCreat
+    songCreat,
+    getSong
 }
