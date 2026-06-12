@@ -1,12 +1,9 @@
 import { Router } from "express";
 import {regUser} from '../controller/auth.conto.js'
-import errHandler from "../middleware/error.middleware.js";
+import { regValidation } from "../validator/auth.validator.js";
 
 const authRouter = Router()
 
-authRouter.post('/register', regUser)
-
-app.use(errHandler())
-
+authRouter.post('/register', regValidation ,regUser)
 
 export default authRouter
