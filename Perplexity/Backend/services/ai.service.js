@@ -7,7 +7,7 @@ const model = new ChatGoogleGenerativeAI({
 
 
 export async function testAi() {
-    model.invoke("what is langgraph, why it differs from langchain?").then((response) => {
+    model.invoke("hello").then((response) => {
         console.log(response.text);
     })       
 }
