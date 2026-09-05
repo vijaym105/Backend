@@ -3,30 +3,33 @@ import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
+  const [email, setemail] = useState('')
+  const [password, setpassoword] = useState('')
 
   const navigate = useNavigate()
   const { handleLogin } = useAuth()
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setFormData((currentData) => ({ ...currentData, [name]: value }))
 
-  }
-
-  const handleSubmit = (event) => {
+  const handleChange = async (event) => {
     event.preventDefault()
+
+    const payload = {
+            email,
+            password,
+        }
+
     try{
-    handleLogin(formData)
+    await handleLogin(payload);
+    console(payload)
     navigate('/')
     } catch (error) {
       return <h1>Error</h1>
     }
 
+
   }
+
+  
 
   return (
     <main className="min-h-screen bg-[#071013] px-6 py-10 text-slate-100 sm:px-10">
@@ -56,17 +59,17 @@ const Login = () => {
               <p className="mt-3 text-sm text-slate-400">Continue your search journey.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleChange} className="space-y-5">
               <div>
                 <label htmlFor="login-email" className="mb-2 block text-sm font-medium text-slate-200">Email</label>
-                <input id="login-email" name="email" type="email" value={formData.email} onChange={handleChange} required autoComplete="email" placeholder="you@example.com" className="w-full rounded-xl border border-white/10 bg-[#071013] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
+                <input id="login-email" name="email" type="email" value={email} onChange={(e) => setemail(e.target.value)} required autoComplete="email" placeholder="you@example.com" className="w-full rounded-xl border border-white/10 bg-[#071013] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
               </div>
               <div>
                 <div className="mb-2 flex items-center justify-between">
                   <label htmlFor="login-password" className="block text-sm font-medium text-slate-200">Password</label>
                   <button type="button" className="text-xs font-medium text-cyan-300 transition hover:text-cyan-200">Forgot password?</button>
                 </div>
-                <input id="login-password" name="password" type="password" value={formData.password} onChange={handleChange} required autoComplete="current-password" placeholder="Enter your password" className="w-full rounded-xl border border-white/10 bg-[#071013] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
+                <input id="login-password" name="password" type="password" value={password} onChange={(e) => setpassoword(e.target.value)} required autoComplete="current-password" placeholder="Enter your password" className="w-full rounded-xl border border-white/10 bg-[#071013] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
               </div>
               <button type="submit" className="w-full rounded-xl bg-cyan-300 px-4 py-3.5 text-sm font-semibold text-[#071013] transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-[#0c191d]">Sign in</button>
             </form>

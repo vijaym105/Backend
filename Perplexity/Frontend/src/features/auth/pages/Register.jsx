@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+
+import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -8,13 +10,19 @@ const Register = () => {
     password: '',
   })
 
+  const {handleRegister} = useAuth()
+  const navigate = useNavigate()
+
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((currentData) => ({ ...currentData, [name]: value }))
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    setFormData({username: handleRegister.username, email: handleRegister.email, password: handleRegister.password})
+    navigate('/');
+
   }
 
   return (
