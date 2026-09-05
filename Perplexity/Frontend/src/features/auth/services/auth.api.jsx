@@ -10,12 +10,15 @@ export async function register(username, email, password){
     return resp.data
 }
 
-export async function login(email, password){
-    console.log(email, password)
-    const resp = await api.post("/auth/login", {email, password});
-    console.log(resp)
-    return resp
-    
+export async function login({ email, password }) {
+    console.log("Email:", email, "Password:", password);
+
+    const resp = await api.post("/auth/login", {
+        email,
+        password
+    });
+
+    return resp.data;
 }
 
 export async function getMe(){

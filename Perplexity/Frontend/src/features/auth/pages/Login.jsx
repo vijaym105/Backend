@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth'
+import { useSelector } from 'react-redux';
 
 const Login = () => {
   const [email, setemail] = useState('')
@@ -8,6 +9,9 @@ const Login = () => {
 
   const navigate = useNavigate()
   const { handleLogin } = useAuth()
+
+   const user = useSelector(state => state.auth.user)
+    const loading = useSelector(state => state.auth.loading)
 
 
   const handleChange = async (event) => {
@@ -20,7 +24,7 @@ const Login = () => {
 
     try{
     await handleLogin(payload);
-    console(payload)
+    console.log(payload)
     navigate('/')
     } catch (error) {
       return <h1>Error</h1>
