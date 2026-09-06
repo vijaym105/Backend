@@ -1,6 +1,5 @@
 import connectDB from './config/database.js'
 import app from './src/app.js'
-import {testAi} from './services/ai.service.js'
 import http, { createServer } from 'http'
 import { initSocket } from './socket/socket.server.js'
 
@@ -10,7 +9,7 @@ await connectDB()
       console.log("Connection failed with mongoDB", err);
       process.exit(1)
     })
-testAi()
+
 
 const httpServer = http.createServer(app);
 
