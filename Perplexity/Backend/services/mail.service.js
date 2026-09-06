@@ -14,19 +14,20 @@ const transporter = nodemailer.createTransport({
 transporter.verify()
     .then(() => {
         console.log("Ready to send emails");
-        
+
     })
     .catch((err) => {
         console.log(err);
     })
 
-export const sendEmail = async (to, subject, text) => {
+export const sendEmail = async (to, subject, html) => {
+
     const mailOptions = {
         from: process.env.GOOGLE_USER,
         to,
         subject,
-        text
-    }
+        html
+    };
 
     const res = await transporter.sendMail(mailOptions);
     console.log("Email sent: " + res.response);

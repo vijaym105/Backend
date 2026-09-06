@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
+import { useSelector } from 'react-redux'
 
 import { useAuth } from '../hooks/useAuth'
 
@@ -12,6 +13,8 @@ const Register = () => {
 
   const {handleRegister} = useAuth()
   const navigate = useNavigate()
+  const loading = useSelector((state) => state.auth.loading)
+  const error = useSelector((state) => state.auth.error)
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -20,8 +23,12 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setFormData({username: handleRegister.username, email: handleRegister.email, password: handleRegister.password})
-    navigate('/');
+    try {
+      await handleRegister(formData)
+      navigate('/login')
+    } catch {
+      // The hook stores the API error for the form to display.
+    }
 
   }
 
@@ -50,6 +57,7 @@ const Register = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              {error && <p role="alert" className="rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-200">{error}</p>}
               <div>
                 <label htmlFor="register-username" className="mb-2 block text-sm font-medium text-slate-200">Username</label>
                 <input id="register-username" name="username" type="text" value={formData.username} onChange={handleChange} required autoComplete="username" placeholder="Choose a username" className="w-full rounded-xl border border-white/10 bg-[#071013] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
@@ -62,7 +70,7 @@ const Register = () => {
                 <label htmlFor="register-password" className="mb-2 block text-sm font-medium text-slate-200">Password</label>
                 <input id="register-password" name="password" type="password" value={formData.password} onChange={handleChange} required minLength="8" autoComplete="new-password" placeholder="At least 8 characters" className="w-full rounded-xl border border-white/10 bg-[#071013] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
               </div>
-              <button type="submit" className="w-full rounded-xl bg-cyan-300 px-4 py-3.5 text-sm font-semibold text-[#071013] transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-[#0c191d]">Create account</button>
+              <button type="submit" disabled={loading} className="w-full rounded-xl bg-cyan-300 px-4 py-3.5 text-sm font-semibold text-[#071013] transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-[#0c191d] disabled:cursor-not-allowed disabled:opacity-60">{loading ? 'Creating account...' : 'Create account'}</button>
             </form>
 
             <p className="mt-8 text-center text-sm text-slate-400">Already have an account? <Link to="/login" className="font-semibold text-cyan-300 hover:text-cyan-200">Sign in</Link></p>
