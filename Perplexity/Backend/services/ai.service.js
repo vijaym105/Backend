@@ -19,8 +19,6 @@ export async function generateResp(message) {
 
 export async function AiTitle(message) {
 
-    console.log("🔥 CALLING GEMINI FOR TITLE");
-
     const response = await geminiModel.invoke([
         new SystemMessage(`
             You generate concise and descriptive titles for chat conversations.
