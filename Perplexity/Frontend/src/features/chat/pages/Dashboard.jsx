@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useChat } from "../hooks/useChat";
 
-/* ---------- Icons (inline, no dependencies) ---------- */
 const Icon = ({ children, className = "h-5 w-5" }) => (
   <svg
     viewBox="0 0 24 24"
@@ -43,7 +42,7 @@ const LogoutIcon = (p) => (
   </Icon>
 );
 
-/* ---------- Seed data ---------- */
+
 const time = () =>
   new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
