@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import FaceExpression from '../../expression/Component/FaceExpression'
 import Player from '../component/Player'
 import { useSong } from '../hooks/useSong'
-import { useAuth } from '../../auth/hooks/useAuth'
 import './home.scss'
 
 const MOOD_META = {
@@ -14,7 +13,6 @@ const MOOD_META = {
 
 const Home = () => {
     const { handleGetSongs, loading, songs, song, setSong } = useSong()
-    const { user, handleLogout } = useAuth()
     const [detectedMood, setDetectedMood] = useState(null)
     const [showCamera, setShowCamera] = useState(false)
 
@@ -28,33 +26,13 @@ const Home = () => {
 
     return (
         <div className="home">
-            {/* ── Sidebar ── */}
             <aside className="home__sidebar">
                 <div className="home__sidebar-header">
                     <div className="home__logo">
                         <span className="home__logo-icon">🎵</span>
                         <span className="home__logo-text">Moodify</span>
                     </div>
-                    <button className="home__logout-btn" onClick={handleLogout} title="Logout">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                            <polyline points="16 17 21 12 16 7"/>
-                            <line x1="21" y1="12" x2="9" y2="12"/>
-                        </svg>
-                    </button>
                 </div>
-
-                {user && (
-                    <div className="home__user">
-                        <div className="home__user-avatar">
-                            {user.username?.[0]?.toUpperCase() || 'U'}
-                        </div>
-                        <div className="home__user-info">
-                            <p className="home__user-name">{user.username}</p>
-                            <p className="home__user-email">{user.email}</p>
-                        </div>
-                    </div>
-                )}
 
                 <div className="home__sidebar-section">
                     {moodMeta && (
@@ -114,11 +92,9 @@ const Home = () => {
                 </div>
             </aside>
 
-            {/* ── Main ── */}
             <main className="home__main">
                 <div className="home__hero">
                     <div className="home__hero-bg" />
-
                     <div className="home__hero-content">
                         {!showCamera ? (
                             <div className="home__welcome">
@@ -137,10 +113,7 @@ const Home = () => {
                                             Found <strong>{songs.length} tracks</strong> for you.
                                         </p>
                                         <div className="home__cta-row">
-                                            <button
-                                                className="home__detect-btn"
-                                                onClick={() => setShowCamera(true)}
-                                            >
+                                            <button className="home__detect-btn" onClick={() => setShowCamera(true)}>
                                                 Detect Again
                                             </button>
                                         </div>
@@ -162,10 +135,7 @@ const Home = () => {
                             <div className="home__camera-wrap">
                                 <div className="home__camera-header">
                                     <h2>Looking at your face…</h2>
-                                    <button
-                                        className="home__close-btn"
-                                        onClick={() => setShowCamera(false)}
-                                    >✕</button>
+                                    <button className="home__close-btn" onClick={() => setShowCamera(false)}>✕</button>
                                 </div>
                                 <FaceExpression onClick={onExpressionDetected} />
                             </div>
